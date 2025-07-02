@@ -1,13 +1,15 @@
 package lippia.web.steps;
 
-import com.crowdar.core.PageSteps;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
 import lippia.web.services.PracticeHomeService;
 
+
 public class PracticeSteps {
+
+    //  Registration Steps
 
     @Given("^The client is on automation practice page$")
     public void home() {
@@ -24,8 +26,8 @@ public class PracticeSteps {
         PracticeHomeService.enterEmail(email);
     }
 
-    @And("^user enters as registration password(.*)$")
-    public void userEntersAsRegPassword(String password) {
+    @And("^user enters registration password(.*)$")
+    public void userEntersRegPassword(String password) {
         PracticeHomeService.enterRegPassword(password);
     }
 
@@ -49,10 +51,22 @@ public class PracticeSteps {
         PracticeHomeService.verifyNavigationToHomePage();
     }
 
-    @Then("^registration must fail with a warning message (.*)$")
-    public void registrationMustFailWithAWarningMessage(String error) {
-        PracticeHomeService.verifyFailedRegistration(error);
+    @Then("^user will fail registration$")
+    public void userWillFailRegistration() {
+        PracticeHomeService.verifyFailedRegistration();
     }
+
+    @Then("^user will fail registration with empty email error$")
+    public void userWillFailRegistrationWithEmptyEmailError() {
+        PracticeHomeService.verifyEmptyEmailError();
+    }
+
+    @Then("^user will fail registration with empty password error$")
+    public void userWillFailRegistrationWithEmptyPasswordError() {
+        PracticeHomeService.verifyEmptyPasswordError();
+    }
+
+    // Login Steps
 
     @Given("^user enters as username (.*)$")
     public void userEntersAsUsername(String username) {
@@ -73,6 +87,33 @@ public class PracticeSteps {
     public void loginMustFailWithAWarningMessage(String error) {
         PracticeHomeService.verifyFailedLogin(error);
     }
+
+    @When("^user clicks on \"Logout\" link$")
+    public void userClicksOnLogoutLink() {
+        PracticeHomeService.clickLogoutLink();
+    }
+
+    @When("^user navigates back$")
+    public void userNavigatesBack() {
+        PracticeHomeService.navigateBack();
+    }
+
+    @Then("^user should see the account login page$")
+    public void userShouldSeeTheAccountLoginPage() {
+        PracticeHomeService.verifyLoginPageVisible();
+    }
+
+    @When("^user clicks on \"Account Details\"$")
+    public void userClicksOnAccountDetails() {
+        PracticeHomeService.clickAccountDetails();
+    }
+
+    @Then("^user should see the account details$")
+    public void userShouldSeeTheAccountDetails() {
+        PracticeHomeService.verifyAccountDetailsVisible();
+    }
+
+    // Shop Steps
 
     @And("^user clicks on \"Shop\"$")
     public void userClicksOnShop() {

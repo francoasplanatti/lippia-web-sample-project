@@ -1,7 +1,6 @@
 package lippia.web.services;
 
 import com.crowdar.core.PropertyManager;
-import com.crowdar.core.actions.ActionManager;
 import com.crowdar.core.actions.WebActionManager;
 import lippia.web.constants.PracticeConstants;
 import org.openqa.selenium.By;
@@ -16,9 +15,11 @@ import static com.crowdar.core.actions.WebActionManager.navigateTo;
 
 public class PracticeHomeService {
 
-    public static void navigateWeb(){
+    public static void navigateWeb() {
         navigateTo(PropertyManager.getProperty("web.base.url"));
     }
+
+    // Registration Steps
 
     public static void clickMyAccountMenu() {
         WebActionManager.click(PracticeConstants.MY_ACCOUNT_MENU_XPATH);
@@ -52,11 +53,29 @@ public class PracticeHomeService {
         Assert.assertTrue(currentUrl.contains("practice.automationtesting.in"), "Not on home page");
     }
 
-    public static void verifyFailedRegistration(String expectedError) {
+    public static void verifyFailedRegistration() {
         WebActionManager.waitVisibility(PracticeConstants.ERROR_MESSAGE_XPATH);
-        WebElement errorElement = WebActionManager.getElement(PracticeConstants.ERROR_MESSAGE_XPATH);
-        Assert.assertEquals(errorElement.getText(), expectedError, "Error message does not match");
+        List<WebElement> errorElements = WebActionManager.getElements(PracticeConstants.ERROR_MESSAGE_XPATH);
+        if (errorElements.isEmpty()) {
+            Assert.fail("No se mostraron mensajes de error durante el registro fallido");
+        }
     }
+
+    public static void verifyEmptyEmailError() {
+        WebActionManager.waitVisibility(PracticeConstants.ERROR_MESSAGE_XPATH);
+        String errorText = WebActionManager.getText(PracticeConstants.ERROR_MESSAGE_XPATH);
+        Assert.assertTrue(errorText.contains(PracticeConstants.EMPTY_EMAIL_ERROR),
+                "El mensaje de error no coincide con el esperado para email vacío");
+    }
+
+    public static void verifyEmptyPasswordError() {
+        WebActionManager.waitVisibility(PracticeConstants.ERROR_MESSAGE_XPATH);
+        String errorText = WebActionManager.getText(PracticeConstants.ERROR_MESSAGE_XPATH);
+        Assert.assertTrue(errorText.contains(PracticeConstants.EMPTY_PASSWORD_ERROR),
+                "El mensaje de error no coincide con el esperado para contraseña vacía");
+    }
+
+    // Login Steps
 
     public static void enterUsername(String username) {
         WebActionManager.setInput(PracticeConstants.LOGIN_USERNAME_INPUT_XPATH, username);
@@ -78,13 +97,37 @@ public class PracticeHomeService {
         Assert.assertEquals(errorElement.getText(), expectedError, "Error message does not match");
     }
 
+    public static void clickLogoutLink() {
+        WebActionManager.waitClickable(PracticeConstants.LOGOUT_LINK_XPATH);
+        WebActionManager.click(PracticeConstants.LOGOUT_LINK_XPATH);
+    }
+
+    public static void navigateBack() {
+        WebActionManager.navigateTo(PropertyManager.getProperty("web.base.url") + "/my-account");
+    }
+
+    public static void verifyLoginPageVisible() {
+        WebActionManager.waitVisibility(PracticeConstants.LOGIN_FORM_XPATH);
+    }
+
+    public static void clickAccountDetails() {
+        WebActionManager.waitClickable(PracticeConstants.ACCOUNT_DETAILS_XPATH);
+        WebActionManager.click(PracticeConstants.ACCOUNT_DETAILS_XPATH);
+    }
+
+    public static void verifyAccountDetailsVisible() {
+        WebActionManager.waitVisibility(PracticeConstants.NEW_PASSWORD_XPATH);
+    }
+
+    // Shop Steps
+
     public static void clickShopMenu() {
         WebActionManager.click(PracticeConstants.SHOP_MENU_XPATH);
     }
 
     public static void selectSorting(String sorting) {
         String sortValue = "";
-        switch(sorting.toLowerCase()) {
+        switch (sorting.toLowerCase()) {
             case "popularity":
                 sortValue = PracticeConstants.SORT_POPULARITY_VALUE;
                 break;
@@ -132,5 +175,4 @@ public class PracticeHomeService {
                 String.format("El primer producto debería ser '%s' pero es '%s'",
                         expectedTitle, actualTitle));
     }
-
 }

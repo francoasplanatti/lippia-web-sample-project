@@ -9,6 +9,8 @@ public class PracticeConstants {
     public static final String REGISTER_BUTTON_XPATH = "xpath://input[@name='register']";
     public static final String REGISTRATION_SUCCESS_XPATH = "xpath://div[contains(@class,'woocommerce-MyAccount-content')]//p[contains(text(),'Hello')]";
     public static final String ERROR_MESSAGE_XPATH = "xpath://ul[@class='woocommerce-error']/li";
+    public static final String EMPTY_EMAIL_ERROR = "Error: Please provide a valid email address.";
+    public static final String EMPTY_PASSWORD_ERROR = "Error: Please enter an account password.";
 
     // For Login
     public static final String LOGIN_USERNAME_INPUT_XPATH = "xpath://input[@id='username']";
@@ -16,6 +18,10 @@ public class PracticeConstants {
     public static final String LOGIN_BUTTON_XPATH = "xpath://input[@name='login']";
     public static final String LOGIN_SUCCESS_XPATH = "xpath://div[contains(@class,'woocommerce-MyAccount-content')]//p[contains(text(),'Hello')]";
     public static final String LOGIN_ERROR_XPATH = "xpath://ul[@class='woocommerce-error']/li";
+    public static final String LOGOUT_LINK_XPATH = "xpath://a[contains(text(),'Logout')]";
+    public static final String LOGIN_FORM_XPATH = "xpath://*[@id=\"customer_login\"]/div[1]/form/p[3]/input[3]";
+    public static final String ACCOUNT_DETAILS_XPATH = "xpath://a[contains(text(),'Account Details')]";
+    public static final String NEW_PASSWORD_XPATH = "xpath://input[@id='password_1']";
 
     // For Shop
     public static final String SHOP_MENU_XPATH = "xpath://a[contains(text(),'Shop')]";
@@ -28,6 +34,6 @@ public class PracticeConstants {
     public static final String SORT_AVG_RATING_VALUE = "rating";
     public static final String SORT_NEWNESS_VALUE = "date";
     public static final String SORT_PRICE_LOW_TO_HIGH_VALUE = "price";
-
 }
+
 

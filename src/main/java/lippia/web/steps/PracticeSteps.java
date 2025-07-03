@@ -129,4 +129,71 @@ public class PracticeSteps {
     public void userMustSeeTheTopElement(String expectedTitle) {
         PracticeHomeService.verifyTopElement(expectedTitle);
     }
+
+    @When("^user clicks on \"Shop\" menu$")
+    public void clickShopMenu() {
+        PracticeHomeService.clickShopMenu();
+    }
+
+    @When("^user clicks on \"Add to basket\"$")
+    public void clickAddToBasket() {
+        PracticeHomeService.clickAddToBasket();
+    }
+
+    @Then("^the book should appear in cart with price$")
+    public void verifyBookInCart() {
+        PracticeHomeService.verifyBookInCart();
+    }
+
+    @When("^user clicks on \"View Basket\"$")
+    public void clickViewBasket() {
+        PracticeHomeService.clickViewBasket();
+    }
+
+    @Then("^verify subtotal is less than total$")
+    public void verifySubtotalLessThanTotal() {
+        PracticeHomeService.verifySubtotalLessThanTotal();
+    }
+
+    @When("^user clicks on \"Proceed to Checkout\"$")
+    public void clickProceedToCheckout() {
+        PracticeHomeService.clickProceedToCheckout();
+    }
+
+    @Then("user should see the billing details")
+    public void verifyCheckoutDetails() {
+        PracticeHomeService.verifyCheckoutDetails();
+    }
+
+    @When("^user fills billing details$")
+    public void fillBillingDetails() {
+        PracticeHomeService.fillBillingDetails();
+    }
+
+    @When("^user chooses \"Direct Bank Transfer\" as payment method$")
+    public void chooseDirectBankTransfer() {
+        PracticeHomeService.selectPaymentMethod();
+    }
+
+    @When("^user clicks on \"Place order\"$")
+    public void clickPlaceOrder() {
+        PracticeHomeService.clickPlaceOrder();
+    }
+
+    @Then("^order confirmation page should be displayed$")
+    public void verifyOrderConfirmation() {
+        PracticeHomeService.verifyOrderConfirmation();
+    }
+
+    @When("^user enters in the \"Billing Country\" field (.*)$")
+    public void enterBillingCountry(String country) {
+        PracticeHomeService.enterBillingCountry(country);
+    }
+
+    @Then("^the tax rate should be 2% for India or 5% for other country$")
+    public void verifyTaxRate(String country) {
+        PracticeHomeService.verifyTaxRate(country);
+    }
+
+
 }

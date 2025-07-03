@@ -10,6 +10,7 @@ import com.crowdar.driver.DriverManager;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.crowdar.core.actions.WebActionManager.navigateTo;
 
@@ -174,5 +175,136 @@ public class PracticeHomeService {
         Assert.assertEquals(actualTitle, expectedTitle,
                 String.format("El primer producto debería ser '%s' pero es '%s'",
                         expectedTitle, actualTitle));
+    }
+
+    public static void selectProduct() {
+        click(PracticeConstants.PRODUCT_XPATH);
+    }
+
+    public static void clickAddToBasket() {
+        selectProduct();
+        click(PracticeConstants.ADD_BASKET_BUTTON_XPATH);
+    }
+
+    public static void verifyBookInCart() {
+        WebElement cartItem = WebActionManager.getElement(PracticeConstants.CART_ITEM_BUTTON);
+        Assert.assertTrue(cartItem.isDisplayed(), "Cart icon not displayed");
+        WebElement price = WebActionManager.getElement(PracticeConstants.ITEM_PRICE_CART_XPATH);
+        Assert.assertTrue(price.isDisplayed(), "Price not displayed in cart menu");
+    }
+
+    public static void clickViewBasket() {
+        click(PracticeConstants.VIEW_BASKET_BUTTON_XPATH);
+    }
+
+    public static void verifySubtotalLessThanTotal() {
+        WebElement subtotal = WebActionManager.getElement(PracticeConstants.SUBTOTAL_XPATH);
+        WebElement total = WebActionManager.getElement(PracticeConstants.TOTAL_XPATH);
+        double subtotalValue = Double.parseDouble(subtotal.getText().replace("₹", ""));
+        double totalValue = Double.parseDouble(total.getText().replace("₹", ""));
+        Assert.assertTrue(subtotalValue < totalValue,
+                "Subtotal (" + subtotalValue + ") should be less than total (" + totalValue + ")");
+    }
+
+    public static void clickProceedToCheckout() {
+        click(PracticeConstants.CHECKOUT_BUTTON_XPATH);
+    }
+
+    public static void verifyCheckoutDetails() {
+        WebElement checkoutForm = WebActionManager.getElement(PracticeConstants.CHECKOUT_FORM_ID);
+        Assert.assertTrue(checkoutForm.isDisplayed(), "Checkout form not displayed");
+    }
+
+    public static void fillBillingDetails() {
+        setInput(PracticeConstants.BILLING_FIRST_NAME_ID, "Nicolas");
+        setInput(PracticeConstants.BILLING_LAST_NAME_ID, "Olivos");
+        setInput(PracticeConstants.BILLING_PHONE_ID, "123456879");
+        setInput(PracticeConstants.BILLING_EMAIL_ID, "nico_olivos@outlook.com");
+        click(PracticeConstants.BILLING_COUNTRY_DROPDOWN_ID);
+        setInput(PracticeConstants.BILLING_COUNTRY_INPUT_ID, "Argentina");
+        click(PracticeConstants.COUNTRY_OPTION_FIRST_XPATH);
+        setInput(PracticeConstants.BILLING_ADDRESS_ID, "Velez 2427");
+        setInput(PracticeConstants.BILLING_CITY_ID, "Corrientes");
+        click(PracticeConstants.BILLING_STATE_DROPDOWN_ID);
+        setInput(PracticeConstants.BILLING_STATE_INPUT_ID, "Corrientes");
+        click(PracticeConstants.STATE_OPTION_FIRST_XPATH);
+        setInput(PracticeConstants.BILLING_POSTCODE_ID, "3400");
+        try {
+            Thread.sleep(120);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void selectPaymentMethod() {
+        waitClickable(PracticeConstants.PAYMENT_METHOD_XPATH);
+    }
+
+    public static void clickPlaceOrder() {
+        click(PracticeConstants.PLACE_ORDER_BUTTON_ID);
+    }
+
+    public static void verifyOrderConfirmation() {
+        WebElement orderDetails = WebActionManager.getElement(PracticeConstants.ORDER_DETAILS_XPATH);
+        Assert.assertTrue(orderDetails.isDisplayed(), "Order confirmation details are not visible");
+    }
+
+    public static void enterBillingCountry(String pais){
+        click(PracticeConstants.BILLING_COUNTRY_DROPDOWN_ID);
+        setInput(PracticeConstants.BILLING_COUNTRY_INPUT_ID, pais);
+        if (Objects.equals(pais, "India")){
+            click(PracticeConstants.COUNTRY_OPTION_SECOND_XPATH);
+        } else if (Objects.equals(pais, "Argentina")) {
+            click(PracticeConstants.COUNTRY_OPTION_FIRST_XPATH);
+        }
+    }
+
+    public static void verifyTaxRate(String country) {
+        if ("India".equals(country)) {
+            verifyIndiaTaxRate();
+        } else {
+            verifyInternationalTaxRate();
+        }
+    }
+
+    private static void verifyIndiaTaxRate() {
+        float expectedTax = calculateExpectedTax(0.02f);
+        float actualTax = getActualTaxValue();
+
+        Assert.assertEquals(expectedTax, actualTax, 0.01,
+                "Tax rate in India should be 2%");
+    }
+
+    private static void verifyInternationalTaxRate() {
+        float expectedTax = calculateExpectedTax(0.05f);
+        float actualTax = getActualTaxValue();
+
+        Assert.assertEquals(expectedTax, actualTax, 0.01,
+                "International tax rate should be 5%");
+    }
+
+    private static float calculateExpectedTax(float rate) {
+        WebElement priceElement = WebActionManager.getElement(PracticeConstants.ITEM_PRICE_XPATH);
+        String priceText = priceElement.getText().replace("₹", "");
+        return Float.parseFloat(priceText) * rate;
+    }
+
+    private static float getActualTaxValue() {
+        WebElement taxElement = WebActionManager.getElement(PracticeConstants.TAX_AMOUNT_XPATH);
+        String taxText = taxElement.getText().replace("₹", "");
+        return Float.parseFloat(taxText);
+    }
+
+    private static void click(String locator) {
+        WebActionManager.waitClickable(locator);
+        WebActionManager.click(locator);
+    }
+
+    private static void setInput(String locator, String value) {
+        WebActionManager.setInput(locator, value);
+    }
+
+    private static void waitClickable(String locator) {
+        WebActionManager.waitClickable(locator);
     }
 }

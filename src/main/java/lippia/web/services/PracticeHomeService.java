@@ -216,19 +216,19 @@ public class PracticeHomeService {
     }
 
     public static void fillBillingDetails() {
-        setInput(PracticeConstants.BILLING_FIRST_NAME_ID, "Nicolas");
-        setInput(PracticeConstants.BILLING_LAST_NAME_ID, "Olivos");
+        setInput(PracticeConstants.BILLING_FIRST_NAME_ID, "Franco");
+        setInput(PracticeConstants.BILLING_LAST_NAME_ID, "Asplanatti");
         setInput(PracticeConstants.BILLING_PHONE_ID, "123456879");
-        setInput(PracticeConstants.BILLING_EMAIL_ID, "nico_olivos@outlook.com");
+        setInput(PracticeConstants.BILLING_EMAIL_ID, "francoasplanatti@gmail.com");
         click(PracticeConstants.BILLING_COUNTRY_DROPDOWN_ID);
         setInput(PracticeConstants.BILLING_COUNTRY_INPUT_ID, "Argentina");
         click(PracticeConstants.COUNTRY_OPTION_FIRST_XPATH);
-        setInput(PracticeConstants.BILLING_ADDRESS_ID, "Velez 2427");
-        setInput(PracticeConstants.BILLING_CITY_ID, "Corrientes");
+        setInput(PracticeConstants.BILLING_ADDRESS_ID, "Belgrano 1234");
+        setInput(PracticeConstants.BILLING_CITY_ID, "Concordia");
         click(PracticeConstants.BILLING_STATE_DROPDOWN_ID);
-        setInput(PracticeConstants.BILLING_STATE_INPUT_ID, "Corrientes");
+        setInput(PracticeConstants.BILLING_STATE_INPUT_ID, "ER");
         click(PracticeConstants.STATE_OPTION_FIRST_XPATH);
-        setInput(PracticeConstants.BILLING_POSTCODE_ID, "3400");
+        setInput(PracticeConstants.BILLING_POSTCODE_ID, "3200");
         try {
             Thread.sleep(120);
         } catch (InterruptedException e) {
